@@ -67,6 +67,7 @@ class ServiceApi(Resource):
 		elif mode == "del":
 			#Suppression de compte
 			theId = request.form.get("id")	
+			leCompte = request.form.get("compte")
 
 			#On vérifie si ce n'est pas le seul compte root de la base de données
 			allUser = User.query.filter_by(compte="root")
@@ -74,7 +75,9 @@ class ServiceApi(Resource):
 			for x in allUser:
 				i+=1
 			if i <= 1:
-				return {'success': False, 'message': "Vous ne pouvez pas le supprimer car il s'agit du seul root compte actif"}
+				if leCompte == "root":
+					return {'success': False, 'message': "Vous ne pouvez pas le supprimer car vous êtes le seul compte root actif"}
+
 			try:
 				element = User.query.get(theId)
 				db.session.delete(element)
