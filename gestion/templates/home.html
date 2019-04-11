@@ -5,6 +5,14 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jquery.dataTables.min.css') }}">
 {% endblock %}
 
+{% block alertHome %}
+{% if success %}
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true"><i class="notika-icon notika-close"></i></span></button> Compte créé avec succès.
+    </div>
+{% endif %}
+{% endblock %}
+
 {% block body %}
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-5 col-xs-12">
@@ -105,75 +113,27 @@
                             <table id="data-table-basic" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Nom</th>
-                                        <th>Prénom</th>
+                                        <th>Nom & Prénom</th>
                                         <th>Téléphone</th>
                                         <th>Email</th>
                                         <th>Compte</th>
+                                        <th>Date inscription</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for u in result %}
                                     <tr>
-                                        <td>Tiger Nixon</td>
-                                        <td>System Architect</td>
-                                        <td>Edinburgh</td>
-                                        <td>61</td>
-                                        <td>2011/04/25</td>
+                                        <td>{{ u.nom }} {{ u.prenom }}</td>
+                                        <td>{{ u.tel }}</td>
+                                        <td>{{ u.email }}</td>
+                                        <td>{{ u.compte }}</td>
+                                        <td>{{ u.date_inscription }}</td>
                                         <td>
-                                            <a href="#" class="btn btn-danger notika-btn-danger">Supprimer</a>
+                                            <a href="/home?sup=oui&id={{ u.id }}" class="btn btn-danger notika-btn-danger">Supprimer</a>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>Garrett Winters</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td>63</td>
-                                        <td>2011/07/25</td>
-                                        <td>
-                                            <a href="#" class="btn btn-danger notika-btn-danger">Supprimer</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ashton Cox</td>
-                                        <td>Junior Technical Author</td>
-                                        <td>San Francisco</td>
-                                        <td>66</td>
-                                        <td>2009/01/12</td>
-                                        <td>
-                                            <button type="submit" name="ajouter" class="btn btn-danger notika-btn-danger">Supprimer</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Cedric Kelly</td>
-                                        <td>Senior Javascript Developer</td>
-                                        <td>Edinburgh</td>
-                                        <td>22</td>
-                                        <td>2012/03/29</td>
-                                        <td>
-                                            <button type="submit" name="ajouter" class="btn btn-danger notika-btn-danger">Supprimer</button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Airi Satou</td>
-                                        <td>Accountant</td>
-                                        <td>Tokyo</td>
-                                        <td>33</td>
-                                        <td>2008/11/28</td>
-                                        <td>
-                                            <a href="#" class="btn btn-danger notika-btn-danger">Supprimer</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>Brielle Williamson</td>
-                                        <td>Integration Specialist</td>
-                                        <td>New York</td>
-                                        <td>61</td>
-                                        <td>2012/12/02</td>
-                                        <td>
-                                            <a href="#" class="btn btn-danger notika-btn-danger">Supprimer</a>
-                                        </td>
-                                    </tr>
+                                    {% endfor %}
                                 </tbody>
                                 <tfoot>
                                     <tr>
