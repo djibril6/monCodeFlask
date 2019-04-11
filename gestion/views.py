@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, session, Blueprint
 from flask_restful import Api, Resource
+from flask_cors import CORS, cross_origin
 import pymysql
 import hashlib
 from datetime import date
@@ -10,11 +11,12 @@ from .models import *
 app = Flask(__name__)
 api = Api(app)
 app.config.from_object('config')
+cors = CORS(app, resources={r"/serviceapi/": {"origins": "*"}})
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 class ServiceApi(Resource):
 	def post(self):
 		# lors de l'envoi d'une requête post
-		some_json = request.get_json()
 		mode = request.form.get("mode")
 		if mode == "login":
 			# Tentative de connexion
@@ -75,6 +77,7 @@ class ServiceApi(Resource):
 
 #Chemin 
 api.add_resource(ServiceApi, '/serviceapi/')
+@cross_origin(origin='*',headers=['Content-Type','Authorization'])
 
 
 @app.route('/', methods=['POST', 'GET'])
